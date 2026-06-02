@@ -117,7 +117,7 @@ Custo da Computação (Onde os Pods Rodam) m6i.xlarge 24/7
 |------|-------|
 | 4 vCPUs | 2 cores físicos com 2 threads cada |
 | Memória RAM | 16G |
-| Processador | Intel Xeon Platinum 8175 (até 3.1 GHz) com suporte a AVX-512 |
+| Processador |  Intel Xeon 8375C (Ice Lake) com até 3.5 GHz e suporte a AVX-512 |
 | Rede |  Largura de banda de até 10 Gbps |
 | Armazenamento | gp2 |  
 
@@ -405,7 +405,7 @@ Build da imagem com tag baseada no commit
 
 Tag latest para ambiente DEV, tag stable para PROD
 
-Push para Amazon EKS
+Push para Amazon ECR (Elastic Container Registry)
 
 Critério de Sucesso:
 
