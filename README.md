@@ -413,13 +413,13 @@ Build concluído sem erros
 
 Imagem < 500MB (otimizada)
 
-Push para EKS confirmado
+Push para ECR confirmado
 
 Tempo Estimado: 2-3 minutos
 
 Artefatos Gerados:
 
-Imagem Docker no POD
+Imagem Docker armazenada no ECR
 
 
 #### 4 - Deploy (Implantação)  
