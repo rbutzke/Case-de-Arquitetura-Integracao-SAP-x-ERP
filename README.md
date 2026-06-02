@@ -110,22 +110,23 @@ https://github.com/erkkimon/vllama
 Custo do Plano de Controle (EKS Cluster) - US$ 0,10 por hora, versão Standart do Kubernets. 
 US$ 0,10 x 24 Horas x 30 dias = US$ 73,00
 
-Custo da Computação (Onde os Pods Rodam) m5.large 24/7
-Sob Demanda (On-Demand)	US$ 0,096	US$ 0,096 × 720h	~US$ 69,12
+Custo da Computação (Onde os Pods Rodam) m6i.xlarge 24/7  
 
-A m5.large suporta 29 pods
+Sob Demanda (On-Demand)	US$ 0,020  
 
-EC2 Large - On-Demand	~US$ 73.00	+ ~US$ 69.12	~US$ 142.12
+US$ 0,020 × 720h	= US$ 144,00
 
-Custo total: US$ 142.12 (720,65) Reais
+A m6i.xlarge suporta 48 pods
 
 Para este plano é contemplado o Provisioned Control Plane Standart
 
 Para o Rabbitmq para o Persistent Volume será necessário 10 GB de armazenamento persistente (EBS na AWS)
 
-10GB x US 0,10 = US 1,00 por mês.
+10GB x US 0,10 = US 1,00.
 
 Custo estimado: US$ 1.00 por mês (gp2 volume).
+
+Custo total: 73.00	+ US$ 144.0 + US$ 1.00 = US$ 218 mensal 
 
 ## Periodicidade 
 Será conforme demanda dos Sistemas SAP ECC x ERP Nacional
