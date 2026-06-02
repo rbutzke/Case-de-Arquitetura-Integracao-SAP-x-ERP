@@ -40,7 +40,11 @@ Para criação do Integrador deverá ser utilizada a metologia Spec Drivem Devel
 
 sempre que possivel os principios do SOLID deverão ser implementados, respeitando o funcionamento do Framework/tecnologia escolhida sem descaracterizar as mesmas.
 
-Dento deste contexto se faz necessário o uso de IA para apoio no processo de desenvolvimento, não sendo o objetio fazer "VibeCode" mas sim utilizar como ferramenta de apoio no processo de desenvolvimento.
+Ferramenta de Apoio na Utlização do SDD:  
+
+https://github.com/github/spec-kit
+
+Dentro deste contexto se faz necessário o uso de IA para apoio no processo de desenvolvimento, não sendo o objetio fazer "VibeCode" mas sim utilizar como ferramenta de apoio no processo de desenvolvimento.
 
 
 ## Sugestão de IA Cloud 
@@ -550,6 +554,21 @@ Registros com status `processed` há mais de 10 dias serão eliminados.
 Registros com status `ready_for_shipment` ou `error` NÃO serão removidos (aguardam processamento).  
 
 A limpeza é realizada apenas no Master, replicada automaticamente para os Slaves.  
+
+
+## Cronograma do Projeto de Integração SAP ECC × ERP Nacional
+
+### Visão Geral do Cronograma
+
+**Duração Total:** 8 a 12 semanas (2 a 3 meses)
+
+| Fase | Período | Atividades Principais | Duração |
+|------|---------|----------------------|---------|
+| Fase 1 | Semana 1-2 | Setup EKS + PostgreSQL Master/Slave + RabbitMQ DLQ | 2 semanas |
+| Fase 2 | Semana 3-4 | Desenvolvimento Producer/Consumer (REST → SOAP) | 2 semanas |
+| Fase 3 | Semana 5-6 | Cron Job adaptativo + lote dinâmico | 2 semanas |
+| Fase 4 | Semana 7-8 | Monitoramento + Pipeline CI/CD + Testes | 2 semanas |
+| Fase 5 | Semana 9-12 | Homologação + Ajustes + Deploy Produção | 4 semanas |
 
 
 
