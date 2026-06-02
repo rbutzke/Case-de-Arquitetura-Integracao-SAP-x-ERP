@@ -187,6 +187,8 @@ O Producer deverá validar e posteriormente converter o JSON para o Padrao de Me
 Os Consumers deveráo estar monitorando as Exchanges/Queues , sendo assim o que estiver livre deverá pegar a mensagem convertida e inserrir na respectiva tabela de log do postgres com o status Ready for shipment,
 após efetuar o insert only com sucesso deverá retornar http code 200 ao Nginx que fará o retorno a sua respectiva origem.
 
+RabbitMQ Queue → Consumer (3 tentativas) → Dead Letter Exchange → DLQ Consumer (alerta humano)
+
 uma Cron Job que executa de 5 em 5 minutos deverá varrer as tabelas e obter os registros com Ready for shipment efetuar o envio para o SAP ECC em lotes de 10 e atualizar todos que tiveram sucesso para o status processed
 
 Todos os WebServices / APIs deverão suportar paginacao
