@@ -1,3 +1,20 @@
+## Resumo Executivo
+
+| Campo | Descrição |
+|-------|-----------|
+| **PROJETO** | Integração SAP ECC (On Premise) x ERP Nacional (IBM Cloud) |
+| **DESAFIO** | SOAP (SAP) vs REST (ERP) - protocolos incompatíveis |
+| **SOLUÇÃO** | Integrador em EKS na AWS com conversão REST → SOAP |
+| **VOLUMETRIA** | 350 mil registros/semana (capacidade calculada: 362k) |
+| **ARQUITETURA** | EKS + m6i.xlarge + RabbitMQ DLQ + PostgreSQL Master/Slave |
+| **DIFERENCIAIS** | Batch adaptativo, Dead Letter Queue, Persistent Volume |
+| **CUSTO MENSAL** | US$ 218 (EKS + EC2 + EBS) + US$ 80 (IA Cloud) |
+| **PRAZO ESTIMADO** | 8 a 12 semanas (Em meses: aproximadamente 2 a 3 meses) | 
+| **METODOLOGIA** | SDD + SOLID + IA como ferramenta de apoio | 
+
+
+
+
 ## Contexto de Negócio
 
 A empresa XYZ hoje utiliza somente o SAP ECC , existe a necessidade de integrar Contábil , Financeiro , Jurídico e RH vindos do ERP Nacional recem adquirido.
