@@ -189,11 +189,14 @@ após efetuar o insert only com sucesso deverá retornar http code 200 ao Nginx 
 
 RabbitMQ Queue → Consumer (3 tentativas) → Dead Letter Exchange → DLQ Consumer (alerta humano)
 
-uma Cron Job que executa de 5 em 5 minutos deverá varrer as tabelas e obter os registros com Ready for shipment efetuar o envio para o SAP ECC em lotes de 10 e atualizar todos que tiveram sucesso para o status processed
+uma Cron Job Adaptativo com Controle de Timeout que executa de 5 em 5 minutos deverá varrer as tabelas e obter os registros com Ready for shipment efetuando o envio para o SAP ECC em lotes , atualizando todos que tiveram sucesso para o status processed
 
-Todos os WebServices / APIs deverão suportar paginacao
+ O Cron Job adaptativo ajusta dinamicamente o tamanho dos lotes com base no tempo real de resposta do SAP ECC, o sistema deverá monitorar continuamente o tempo de resposta do SAP ECC, lotes menores serão enviados automaticamente quando o SAP estiver lento,
+ lotes maiores quando a performance estiver ok.
 
-Cada Requisição possuirá 30s até apresentar time out , existe um limite de 8 mega de trafego por requisição 
+Todos os WebServices / APIs deverão suportar paginação
+
+Cada Requisição possuirá 60s até apresentar time out , existe um limite de 8 mega de trafego por requisição 
 
 ## Desenho EKS namespace Integrador
 
