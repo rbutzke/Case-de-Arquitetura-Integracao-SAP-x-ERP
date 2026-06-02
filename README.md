@@ -119,7 +119,11 @@ Custo da Computação (Onde os Pods Rodam) m6i.xlarge 24/7
 | Memória RAM | 16G |
 | Processador | Intel Xeon Platinum 8175 (até 3.1 GHz) com suporte a AVX-512 |
 | Rede |  Largura de banda de até 10 Gbps |
-| Armazenamento | gp2 |
+| Armazenamento | gp2 |  
+
+Região us-east-1 AWS localizada no Norte da Virgínia, Estados Unidos , mais antiga e que possui multiplas Zonas de Disponibilidade para redundância dentro da própria região.  
+
+
 
 
 Sob Demanda (On-Demand)	US$ 0,20  
