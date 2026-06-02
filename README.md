@@ -264,7 +264,8 @@ Cada Requisição possuirá 60s até apresentar time out , existe um limite de 8
 
 ## Desenho EKS namespace Integrador
 
-<img width="1743" height="763" alt="image" src="https://github.com/user-attachments/assets/e405f6bd-8691-40b6-a6f9-192d849b64c6" />
+<img width="1721" height="753" alt="image" src="https://github.com/user-attachments/assets/fa7217d9-5026-4c1a-a8b5-72799c09090b" />
+
 
 
 ## Desenho EKS namespace Observability
@@ -513,6 +514,23 @@ Por POD: uso de CPU/memória, latência de respostas HTTP (200), taxa de erro.
 
 RabbitMQ: tamanho de filas, taxa de publish/consume, consumers ativos.
 
-Base de dados: conexões ativas, tempo de query, taxa de inserção/leitura , taxa de replica.
+Base de dados: conexões ativas, tempo de query, taxa de inserção/leitura , taxa de replica.  
+
+
+
+## Banco de Dados - Arquitetura Master / Réplicas
+
+O PostgreSQL será configurado em cluster com 1 nó Master e 2 nós Réplicas (Slaves):
+
+- **Master (POD10):** Responsável por todas as operações de escrita (INSERT dos 3 Consumers e UPDATE do Cron Job). Permite leitura apenas em cenários de contingência.
+
+- **Slave 1 (POD11):** Dedicada exclusivamente para leitura pelo Cron Job. Isola a varredura dos lotes (a cada 5 minutos) das operações de escrita.
+
+- **Slave 2 (POD12):** Dedicada exclusivamente para leitura pelo Front End (Vue.js). Garante que os dashboards de monitoramento não impactem a performance da ingestão de dados.
+
+A replicação é feita via Streaming Replication do PostgreSQL, com tempo de atraso inferior a 1 segundo em condições normais.
+
+Esta arquitetura garante que os 350 mil registros semanais sejam processados sem contenção entre operações de leitura e escrita, além de fornecer alta disponibilidade para consultas de monitoramento.
+
 
 
