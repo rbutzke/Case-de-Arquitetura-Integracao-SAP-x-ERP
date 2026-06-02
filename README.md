@@ -107,7 +107,8 @@ https://github.com/erkkimon/vllama
 
 ## EKS + EC2 Custo Computacional
 
-Custo do Plano de Controle (EKS Cluster) - US$ 0,10 por hora, versão Standart do Kubernets. 
+Custo do Plano de Controle (EKS Cluster) - US$ 0,10 por hora, versão Standart do Kubernets.  
+
 US$ 0,10 x 24 Horas x 30 dias = US$ 73,00
 
 Custo da Computação (Onde os Pods Rodam) m6i.xlarge 24/7  
