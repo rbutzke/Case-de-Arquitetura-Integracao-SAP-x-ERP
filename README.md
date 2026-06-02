@@ -282,11 +282,11 @@ Objetivo: Garantir padronização do código e identificar problemas antes dos t
 
 Atividades:
 
-Execução do ruff para análise estática (Python) ou eslint (TypeScript/NestJS)
+Execução do ruff para análise estática (Python) ou eslint (TypeScript/NestJS) ou Checkstyle + PMD (Java/Spring)
 
 Execução do black ou prettier para formatação
 
-Validação de segurança básica (bandit, se Python)
+Validação de segurança básica (bandit, se Python, Semgrep se Typescript, FindSecBugs se Java )
 
 Critério de Sucesso:
 
@@ -309,7 +309,7 @@ Cobertura mínima exigida: 80% (linhas de código)
 
 Frameworks sugeridos: pytest (Python) ou JUnit (Java/Spring) ou Jest(Typescript)
 
-Foco nos adaptadores REST↔SOAP, regras de negócio (paginação, timeout)
+Foco nos REST↔SOAP, regras de negócio (paginação, timeout)
 
 2.2. Testes de Integração
 Banco PostgreSQL em container (GitLab Services)
@@ -346,11 +346,11 @@ Atividades:
 
 Leitura do Dockerfile (multi-stage para otimização)
 
-Build da imagem com tag baseada no commit SHA
+Build da imagem com tag baseada no commit
 
 Tag latest para ambiente DEV, tag stable para PROD
 
-Push para Amazon ECR (Elastic Container Registry)
+Push para Amazon EKS
 
 Critério de Sucesso:
 
@@ -358,13 +358,13 @@ Build concluído sem erros
 
 Imagem < 500MB (otimizada)
 
-Push para ECR confirmado
+Push para EKS confirmado
 
 Tempo Estimado: 2-3 minutos
 
 Artefatos Gerados:
 
-Imagem Docker: 123456789012.dkr.ecr.us-east-1.amazonaws.com/integrador:abc123  
+Imagem Docker no POD
 
 
 #### 4 - Deploy (Implantação)  
@@ -374,7 +374,7 @@ Objetivo: Atualizar ambiente DEV para validação interna.
 
 Atividades:
 
-Conexão com AWS ECS (Elastic Container Service) ou EC2
+Conexão com AWS EKS
 
 Force new deployment do serviço integrador-dev
 
