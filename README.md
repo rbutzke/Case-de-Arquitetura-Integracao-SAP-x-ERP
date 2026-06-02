@@ -121,6 +121,11 @@ Custo total: US$ 142.12 (720,65) Reais
 
 Para este plano é contemplado o Provisioned Control Plane Standart
 
+Para o Rabbitmq para o Persistent Volume será necessário 10 GB de armazenamento persistente (EBS na AWS)
+
+10GB x US 0,10 = US 1,00 por mês.
+
+Custo estimado: US$ 1.00 por mês (gp2 volume).
 
 ## Periodicidade 
 Será conforme demanda dos Sistemas SAP ECC x ERP Nacional
@@ -135,14 +140,18 @@ Estimativa de 200 a 350 mil registros por semana
 
 Capacidade com 3 Consumers (cenário atual)
 
-Tempo por mensagem: 5 segundos
-Mensagens por minuto por Consumer: 60 ÷ 5 = 12 msg/min
-Mensagens por hora por Consumer: 12 × 60 = 720 msg/hora
+Tempo por mensagem: 5 segundos  
 
-3 Consumers = 720 × 3 = 2.160 mensagens/hora
-2.160 × 24 horas = 51.840 mensagens/dia
-51.840 × 7 dias = 362.880 mensagens/semana
+Mensagens por minuto por Consumer: 60 ÷ 5 = 12 msg/min  
 
+Mensagens por hora por Consumer: 12 × 60 = 720 msg/hora  
+
+
+3 Consumers = 720 × 3 = 2.160 mensagens/hora  
+
+2.160 × 24 horas = 51.840 mensagens/dia  
+
+51.840 × 7 dias = 362.880 mensagens/semana  
 
 
 ## Infra utilizada:
@@ -187,6 +196,8 @@ O Producer deverá validar e posteriormente converter o JSON para o Padrao de Me
 Os Consumers deveráo estar monitorando as Exchanges/Queues , sendo assim o que estiver livre deverá pegar a mensagem convertida e inserir na respectiva tabela do postgres com o status Ready for shipment,
 após efetuar o insert only com sucesso deverá retornar http code 200 ao Nginx que fará o retorno a sua respectiva origem, em caso de erro deverá retornar 400 .
 
+O RabbitMQ vai utilizar Persistent Volume no EKS , basicamente serve para manter os dados mesmo após o pod ser reiniciado, recriado ou movido para outro nó. 
+
 O RabbitMQ deverá possuir Dead Letter Exchange configurada enviando após 3 tentativas falhas para DLQ Consumer
 
 RabbitMQ Queue → Consumer (3 tentativas) → Dead Letter Exchange → DLQ Consumer (alerta humano)
@@ -221,7 +232,8 @@ Cada Requisição possuirá 60s até apresentar time out , existe um limite de 8
 
 ## Desenho EKS namespace Integrador
 
-<img width="1991" height="861" alt="Integrador2 drawio" src="https://github.com/user-attachments/assets/4c9d279e-29ea-4b48-b42f-4cf9880170e7" />
+<img width="1743" height="763" alt="image" src="https://github.com/user-attachments/assets/e405f6bd-8691-40b6-a6f9-192d849b64c6" />
+
 
 ## Desenho EKS namespace Observability
 
