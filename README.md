@@ -113,9 +113,9 @@ US$ 0,10 x 24 Horas x 30 dias = US$ 73,00
 
 Custo da Computação (Onde os Pods Rodam) m6i.xlarge 24/7  
 
-Sob Demanda (On-Demand)	US$ 0,020  
+Sob Demanda (On-Demand)	US$ 0,20  
 
-US$ 0,020 × 720h	= US$ 144,00
+US$ 0,20 × 720h	= US$ 144,00
 
 A m6i.xlarge suporta 48 pods
 
