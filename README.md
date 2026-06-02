@@ -530,7 +530,27 @@ O PostgreSQL será configurado em cluster com 1 nó Master e 2 nós Réplicas (S
 
 A replicação é feita via Streaming Replication do PostgreSQL, com tempo de atraso inferior a 1 segundo em condições normais.
 
-Esta arquitetura garante que os 350 mil registros semanais sejam processados sem contenção entre operações de leitura e escrita, além de fornecer alta disponibilidade para consultas de monitoramento.
+Esta arquitetura garante que os 350 mil registros semanais sejam processados sem contenção entre operações de leitura e escrita, além de fornecer alta disponibilidade para consultas de monitoramento.  
+
+
+### Política de Sanitização da Base de Dados
+
+Será implementado um script automatizado de limpeza (housekeeping) para controle do crescimento da base de dados e conformidade com políticas de retenção de dados.
+
+**Configuração da Política:**
+
+| Parâmetro | Valor |
+|-----------|-------|
+| **Frequência** | Mensal (último dia de cada mês) |
+| **Horário** | 23:00 (horário de baixa demanda) |
+| **Critério de retenção** | Manter registros dos últimos 10 dias |  
+
+Registros com status `processed` há mais de 10 dias serão eliminados.  
+
+Registros com status `ready_for_shipment` ou `error` NÃO serão removidos (aguardam processamento).  
+
+A limpeza é realizada apenas no Master, replicada automaticamente para os Slaves.  
+
 
 
 
