@@ -184,15 +184,36 @@ Ao Receber a requisição o Nginx deverá verificar o Producer que se encontra d
 
 O Producer deverá validar e posteriormente converter o JSON para o Padrao de Mensageria ao qual o Broker RabbitMQ espera (Exchange/Queue) e postar o Mesmo na sua respectiva Exchange/Queue
 
-Os Consumers deveráo estar monitorando as Exchanges/Queues , sendo assim o que estiver livre deverá pegar a mensagem convertida e inserrir na respectiva tabela de log do postgres com o status Ready for shipment,
-após efetuar o insert only com sucesso deverá retornar http code 200 ao Nginx que fará o retorno a sua respectiva origem.
+Os Consumers deveráo estar monitorando as Exchanges/Queues , sendo assim o que estiver livre deverá pegar a mensagem convertida e inserir na respectiva tabela do postgres com o status Ready for shipment,
+após efetuar o insert only com sucesso deverá retornar http code 200 ao Nginx que fará o retorno a sua respectiva origem, em caso de erro deverá retornar 400 .
+
+O RabbitMQ deverá possuir Dead Letter Exchange configurada enviando após 3 tentativas falhas para DLQ Consumer
 
 RabbitMQ Queue → Consumer (3 tentativas) → Dead Letter Exchange → DLQ Consumer (alerta humano)
 
-uma Cron Job Adaptativo com Controle de Timeout que executa de 5 em 5 minutos deverá varrer as tabelas e obter os registros com Ready for shipment efetuando o envio para o SAP ECC em lotes , atualizando todos que tiveram sucesso para o status processed
+uma Cron Job Adaptativo com Controle de Timeout que executa de 5 em 5 minutos deverá varrer as tabelas e obter os registros com ready for shipment efetuando o envio para o SAP ECC em lotes , atualizando todos que tiveram sucesso para o status processed
 
  O Cron Job adaptativo ajusta dinamicamente o tamanho dos lotes com base no tempo real de resposta do SAP ECC, o sistema deverá monitorar continuamente o tempo de resposta do SAP ECC, lotes menores serão enviados automaticamente quando o SAP estiver lento,
  lotes maiores quando a performance estiver ok.
+
+Logica: 
+
+Monitora continuamente o tempo de resposta do SAP ECC
+
+Tempo limite por lote: 50 segundos (margem de 10s dos 60s totais)
+
+Tamanho do lote varia de 2 a 8 registros conforme performance:
+
+* SAP rápido (< 3s): lote de 8 registros
+* SAP normal (3-6s): lote de 5 registros
+* SAP lento (6-10s): lote de 3 registros
+* SAP crítico (>10s): lote de 2 registros
+
+Registros não processados permanecem com status ready for shipment
+
+No Próximo ciclo deve processar os remanescentes
+
+Se tempo restante for inferior a 10 segundos, interrompe o lote
 
 Todos os WebServices / APIs deverão suportar paginação
 
@@ -202,10 +223,17 @@ Cada Requisição possuirá 60s até apresentar time out , existe um limite de 8
 
 <img width="1991" height="861" alt="Integrador2 drawio" src="https://github.com/user-attachments/assets/4c9d279e-29ea-4b48-b42f-4cf9880170e7" />
 
+## Desenho EKS namespace Observability
+
+<img width="894" height="500" alt="image" src="https://github.com/user-attachments/assets/6acb1232-ad40-401c-a2a3-952dc8041032" />  
+
+
+
 
 ## Desenho Arquitetural:
 
-<img width="2562" height="981" alt="case drawio" src="https://github.com/user-attachments/assets/78dbfddd-0c73-4e2d-9033-7407ac0c7dbe" />
+<img width="2030" height="786" alt="image" src="https://github.com/user-attachments/assets/3eb9b34c-bf1c-4c06-9825-fc9bdbf63924" />
+
 
 
 ## Escopo / Pré Requisitos
@@ -411,13 +439,35 @@ Deploy concluído e validado
 
 Tempo Estimado: 5 minutos (incluindo aprovação)
 
-## Métricas
-Prometheus
+## Métricas  
+
+### Prometheus  
+
+No cluster EKS já existente mas em um namespace separado chamado Observability estará o Prometheus .
+
+Sua função é a de coletar métricas de todos os Pods (POD01 a POD13), sendo FrontEnd , Nginx, RabbitMQ (filas, consumers, producers), Banco de dados (Base Integrador, replica 1 , replica 2), CronJob, Kubernetes (CPU, memória, rede, número de réplicas, restart de pods).
+
+Se conecta das seguintes formas:
+
+ServiceMonitor (Prometheus Operator) aponta para os endpoints /metrics de cada aplicação
+
+RabbitMQ expõe métricas via plugin Prometheus.
+
+Banco de dados via Postgres Exporter.
 
 ## Monitoramento
-Grafana
 
+### Grafana
 
+No cluster EKS já existente mas em um namespace separado chamado Observability estará o Grafana.  
 
+Sua função é fonecer dashboards para visualização das métricas provenientes do Prometheus.
+
+O que será monitorado visualmente nos dashboars:
+Por POD: uso de CPU/memória, latência de respostas HTTP (200), taxa de erro.
+
+RabbitMQ: tamanho de filas, taxa de publish/consume, consumers ativos.
+
+Base de dados: conexões ativas, tempo de query, taxa de inserção/leitura , taxa de replica.
 
 
