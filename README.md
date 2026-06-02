@@ -475,7 +475,8 @@ No cluster EKS já existente mas em um namespace separado chamado Observability 
 
 Sua função é fonecer dashboards para visualização das métricas provenientes do Prometheus.
 
-O que será monitorado visualmente nos dashboars:
+O que será monitorado visualmente nos dashboars:  
+
 Por POD: uso de CPU/memória, latência de respostas HTTP (200), taxa de erro.
 
 RabbitMQ: tamanho de filas, taxa de publish/consume, consumers ativos.
